@@ -1,0 +1,61 @@
+{% extends "Digital/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6" style="margin-top: 50px;">
+        <div class="card custom-card" onclick="toggleLink(this);">
+            <div class="face122">
+                <div class="data">
+                    <div class="row" style="text-align:center;align-items:center"><span><i aria-hidden="true"></i></span></div>
+                    <center>
+                        <div class="row"><span style="font-weight:bold;font-size:18px;" class="numscroller roller-title-number-5 scrollzip isShown" data-min="1" data-max="" data-delay="1" data-increment="1" data-slno="5"></span></div>
+                        <div class="row"><span style="font-weight:bold;font-size:18px;">Create Digital Support Request</span></div>
+                    </center>
+                </div>
+            </div>
+            <div class="face77 test" style="display: none;">
+                <div class="row temp" style="text-align:center;align-items:center;font-weight:bold">
+                    <a href="{% url 'request' %}" class="custom-link">
+                        <span class="glyphicon glyphicon-eye-open"></span> Create Support Request
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6" style="margin-top: 50px;">
+        <div class="card custom-card" onclick="toggleLink(this);">
+            <div class="face122">
+                <div class="data">
+                    <div class="row" style="text-align:center;align-items:center"><span><i aria-hidden="true"></i></span></div>
+                    <center>
+                        <div class="row"><span style="font-weight:bold;font-size:18px;" class="numscroller roller-title-number-5 scrollzip isShown" data-min="1" data-max="" data-delay="1" data-increment="1" data-slno="5"></span></div>
+                        <div class="row"><span style="font-weight:bold;font-size:18px;">Create RPA Requisition Form</span></div>
+                    </center>
+                </div>
+            </div>
+            <div class="face77 test" style="display: none;">
+                <div class="row temp" style="text-align:center;align-items:center;font-weight:bold">
+                    <a href="{% url 'RPA' %}" class="custom-link">
+                        <span class="glyphicon glyphicon-eye-open"></span> Create Support Request
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleLink(card) {
+        // Toggle the visibility of the link inside the clicked card
+        var linkDiv = card.querySelector('.face77.test');
+        if (linkDiv.style.display === 'none') {
+            linkDiv.style.display = 'block';
+        } else {
+            linkDiv.style.display = 'none';
+        }
+    }
+</script>
+
+{% endblock content %}

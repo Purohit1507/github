@@ -1,0 +1,51 @@
+{% extends "Digital/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4" style="color: #007bff;">Requests Report</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Applicant PS Number</th>
+                    <th>Applicant Name</th>
+                    <th>Applicant Email Id</th>
+                    <th>Request Date</th>
+                    <th>Location</th>
+                    <th>Department</th>
+                    <th>Contact No</th>
+                    <th>Initiator HOD PsNo</th>
+                    <th>Initiator HOD Name</th>
+                    <th>Initiator HOD EmailId</th>
+                    <th>.NET Request Type</th>
+                    <th>Copy To Id</th>
+                    <th>Problem Description</th>
+                    <th>Problem Type</th>
+                    <th>Justification</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                <tr>
+                    <td>{{ request.applicant_ps_number }}</td>
+                    <td>{{ request.applicant_name }}</td>
+                    <td>{{ request.applicant_email_id }}</td>
+                    <td>{{ request.request_date }}</td>
+                    <td>{{ request.location }}</td>
+                    <td>{{ request.department }}</td>
+                    <td>{{ request.contact_no }}</td>
+                    <td>{{ request.initiator_hod_ps_no }}</td>
+                    <td>{{ request.initiator_hod_name }}</td>
+                    <td>{{ request.initiator_hod_email_id }}</td>
+                    <td>{{ request.net_request_type }}</td>
+                    <td>{{ request.copy_to_id }}</td>
+                    <td>{{ request.copy_from_id }}</td>
+                    <td>{{ request.application_name }}</td>
+                    <td>{{ request.justification }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

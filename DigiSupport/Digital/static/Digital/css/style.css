@@ -1,0 +1,67 @@
+body {
+    background-image: url("{% static 'Digital/img/image.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    color: rgb(33, 37, 41);
+}
+
+/* Define custom card styles */
+.custom-card {
+    width: 80%; 
+    background-color: #222;
+    border: 1px solid #333;
+    padding: 60px;  
+    transition: background-color 0.3s ease; 
+    cursor: pointer;
+}
+
+/* Custom card hover effect */
+.custom-card:hover {
+    background-color: #333;
+}
+
+/* Define custom link styles */
+.custom-link {
+    color: #e50914;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Custom link hover effect */
+.custom-link:hover {
+    text-decoration: underline;
+}
+
+/* Form label styles */
+.form-label {
+    color: #e5e5e5;
+}
+
+/* Form control styles */
+.form-control {
+    background-color: #333;
+    color: #e5e5e5;
+    border: 1px solid #444;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: #e50914;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #ff0a16;
+}
+
+.btn-secondary {
+    background-color: #333;
+    border: none;
+    color: #e5e5e5;
+}
+
+.btn-secondary:hover {
+    background-color: #444;
+}

@@ -1,0 +1,91 @@
+{% extends "Digital/base.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{% block content %}
+<div class="container my-5 p-4 custom-card">
+    <h2 class="text-center mb-4 custom-link">LMB Digital Support Request</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_applicant_ps_number" class="form-label">Applicant PS Number:</label>
+                {{ form.applicant_ps_number|add_class:"form-control" }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_applicant_name" class="form-label">Applicant Name:</label>
+                {{ form.applicant_name|add_class:"form-control" }}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_applicant_email_id" class="form-label">Applicant Email Id:</label>
+                {{ form.applicant_email_id|add_class:"form-control" }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_request_date" class="form-label">Request Date:</label>
+                {{ form.request_date|add_class:"form-control" }}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_location" class="form-label">Location:</label>
+                {{ form.location|add_class:"form-control" }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_department" class="form-label">Department:</label>
+                {{ form.department|add_class:"form-control" }}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_contact_no" class="form-label">Contact No:</label>
+                {{ form.contact_no|add_class:"form-control" }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_initiator_hod_ps_no" class="form-label">Initiator HOD PsNo:</label>
+                {{ form.initiator_hod_ps_no|add_class:"form-control" }}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_initiator_hod_name" class="form-label">Initiator HOD Name:</label>
+                {{ form.initiator_hod_name|add_class:"form-control" }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_initiator_hod_email_id" class="form-label">Initiator HOD EmailId:</label>
+                {{ form.initiator_hod_email_id|add_class:"form-control" }}
+            </div>
+        </div>
+        <hr>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_net_request_type" class="form-label">.NET Request Type:</label>
+                {{ form.net_request_type|add_class:"form-control" }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_copy_to_id" class="form-label">Copy To Id:</label>
+                {{ form.copy_to_id|add_class:"form-control" }}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_copy_from_id" class="form-label">Copy From Id:</label>
+                {{ form.copy_from_id|add_class:"form-control" }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_application_name" class="form-label">Application Name:</label>
+                {{ form.application_name|add_class:"form-control" }}
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="id_justification" class="form-label">Justification:</label>
+            {{ form.justification|add_class:"form-control" }}
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary mx-2">Submit</button>
+            <button type="submit" name="save_as_draft" class="btn btn-secondary mx-2">Save As Draft</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}
