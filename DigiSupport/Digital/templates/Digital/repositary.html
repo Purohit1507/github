@@ -1,0 +1,43 @@
+{% extends "Digital/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container my-5 p-4">
+    <h2 class="text-center mb-4">Repository</h2>
+
+    <div class="mb-4">
+        <h4>Create Folder</h4>
+        <form method="post">
+            {% csrf_token %}
+            {{ folder_form.as_p }}
+            <button type="submit" class="btn btn-primary">Create Folder</button>
+        </form>
+    </div>
+
+    <div class="mb-4">
+        <h4>Upload File</h4>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ file_form.as_p }}
+            <button type="submit" class="btn btn-primary">Upload File</button>
+        </form>
+    </div>
+
+    <div class="mb-4">
+        <h4>Folders and Files</h4>
+        {% for folder in folders %}
+        <div class="card mb-2">
+            <div class="card-header">
+                {{ folder.name }} (Created by: {{ folder.created_by.username }})
+            </div>
+            <div class="card-body">
+                <ul>
+                    {% for file in folder.files.all %}
+                    <li><a href="{{ file.file.url }}">{{ file.file.name }}</a> (Uploaded by: {{ file.uploaded_by.username }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

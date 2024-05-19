@@ -1,8 +1,14 @@
+import json
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import NetAuthorizationRequest, Post
 from .forms import SignupForm, LoginForm, NetAuthorizationRequestForm
+from .models import Folder, File
+from .forms import FolderForm, FileForm
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import ChatLog
 
 def home(request):
     return render(request, 'Digital/home.html')
@@ -23,6 +29,41 @@ def contact(request):
 
 def RPA(request):
     return render(request, 'Digital/RPA.html')
+
+def save_chat_log(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        message = data.get('message')
+        response = data.get('response')
+        user = request.user if request.user.is_authenticated else None
+        chat_log = ChatLog.objects.create(user=user, message=message, response=response)
+        chat_log.save()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'fail'}, status=400)
+
+def Repositary(request):
+    folders = Folder.objects.all()
+    if request.method == 'POST':
+        folder_form = FolderForm(request.POST)
+        file_form = FileForm(request.POST, request.FILES)
+        if folder_form.is_valid():
+            new_folder = folder_form.save(commit=False)
+            new_folder.created_by = request.user
+            new_folder.save()
+            return redirect('repositary')
+        elif file_form.is_valid():
+            new_file = file_form.save(commit=False)
+            new_file.uploaded_by = request.user
+            new_file.save()
+            return redirect('repositary')
+    else:
+        folder_form = FolderForm()
+        file_form = FileForm()
+    return render(request, 'Digital/repositary.html', {
+        'folders': folders,
+        'folder_form': folder_form,
+        'file_form': file_form
+    })
 
 def report(request):
     requests = NetAuthorizationRequest.objects.all()

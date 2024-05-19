@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from DigiSupport import settings
 from Digital import views
 
 urlpatterns = [
@@ -28,8 +30,12 @@ urlpatterns = [
     path('signup/',views.signup, name="signup"),
     path('signout/',views.signout, name="signout"),
     path('RPA/',views.RPA, name="RPA"),
+    path('Repositary/',views.Repositary, name="repositary"),
+    path('save-chat-log/', views.save_chat_log, name='save_chat_log'),
     
     
     
     
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, User
 from django.contrib.auth.models import User
 from django.utils.translation import gettext, gettext_lazy as _
 from .models import NetAuthorizationRequest
+from .models import Folder, File
 
 class SignupForm(UserCreationForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
@@ -56,3 +57,12 @@ class NetAuthorizationRequestForm(forms.ModelForm):
             'justification': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
+class FolderForm(forms.ModelForm):
+    class Meta:
+        model = Folder
+        fields = ['name']
+
+class FileForm(forms.ModelForm):
+    class Meta:
+        model = File
+        fields = ['file', 'folder']

@@ -1,34 +1,52 @@
-    <!DOCTYPE html>
-    {% load static %}
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'Digital/css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'Digital/css/style.css' %}">
-        <title>Document</title>
-    </head>
-    <body>
-        <div class="container-fluid bg-dark">
-        {% include 'Digital/navbar.html'%}
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    {% block msg%}
-                    {% endblock msg%}
-                </div>
-            </div>
-            <div class="row">
-                {% block side %}
-                {% endblock side %}
+    <title>Document</title>
+</head>
+<body>
 
-                {% block content %}
-                {% endblock content %}
+    <div class="container-fluid bg-dark">
+        {% include 'Digital/navbar.html' %}
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                {% block msg %}
+                {% endblock msg %}
             </div>
         </div>
-    <script src="{% static 'Digital/js/bootstrap.js'%}"></script>
-    <script src="{% static 'Digital/js/jquery.js'%}"></script>
-    <script src="{% static 'Digital/js/popper.js'%}"></script>
-    </body>
-    </html>
+        <div class="row">
+            {% block side %}
+            {% endblock side %}
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+
+    <!-- Chatbot HTML -->
+    <div id="chatbot-container">
+        <button id="open-chatbot" class="chatbot-button">Chat</button>
+        <div id="chatbot">
+            <div class="chatbot-header">
+                <button id="close-chatbot" class="close-chatbot-button">&times;</button>
+                <span>ChatDGT</span>
+            </div>
+            <div id="chatbot-messages" class="chatbot-messages"></div>
+            <div class="chatbot-input-container">
+                <input type="text" id="chatbot-input" class="chatbot-input" placeholder="Type your message...">
+                <button id="send-chatbot" class="send-chatbot-button">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'Digital/js/bootstrap.js' %}"></script>
+    <script src="{% static 'Digital/js/jquery.js' %}"></script>
+    <script src="{% static 'Digital/js/popper.js' %}"></script>
+    <script src="{% static 'Digital/js/chatbot.js' %}" defer></script>
+</body>
+</html>
