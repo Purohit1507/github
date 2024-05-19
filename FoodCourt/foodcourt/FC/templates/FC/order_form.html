@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Food</title>
+    <link rel="stylesheet" href="{% static 'FC/css/style.css' %}">
+    <script src="{% static 'FC/js/script.js' %}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Order Food</h1>
+        <form method="post" id="orderForm">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ order_form.as_p }}
+            </div>
+            <input type="hidden" name="name" value="{{ order_form.initial.name }}">
+            <input type="hidden" name="ps_no" value="{{ order_form.initial.ps_no }}">
+            <input type="hidden" name="dept_shop" value="{{ order_form.initial.dept_shop }}">
+            <input type="hidden" name="mobile_number" value="{{ order_form.initial.mobile_number }}">
+
+            <div class="form-group">
+                <label for="menu_item_select">Menu Items</label>
+                <select id="menu_item_select" name="menu_item" multiple="">
+                    {% for item in day_menu_items %}
+                        <option value="{{ item.id }}" data-price="{{ item.price }}">{{ item.name }} - {{ item.price }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div id="menu_item_quantities" class="form-group"></div>
+
+            <div class="form-group">
+                <label for="random_menu">
+                    <input type="checkbox" name="show_random_menu" id="show_random_menu_checkbox"> Show Random Menu
+                </label>
+            </div>
+            
+            <div class="form-group" id="random_menu_div" style="display: none;">
+                <label for="random_menu">Random Menu</label>
+                <select id="random_menu" name="random_menu" multiple="">
+                    {% for item in punjabi_items %}
+                        <option value="{{ item.id }}" data-price="{{ item.price }}">{{ item.item_name }} - {{ item.price }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div id="random_menu_quantities" class="form-group"></div>
+
+            <div class="form-group">
+                <label for="total_amount">Total Amount</label>
+                <input type="text" id="total_amount" name="total_amount" readonly>
+            </div>
+
+            <button type="submit" id="submitBtn">Submit Order</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuSelect = document.getElementById('menu_item_select');
+            const randomMenuSelect = document.getElementById('random_menu');
+            const totalAmount = document.getElementById('total_amount');
+            const showRandomMenuCheckbox = document.getElementById('show_random_menu_checkbox');
+            const randomMenuDiv = document.getElementById('random_menu_div');
+            const menuItemQuantities = document.getElementById('menu_item_quantities');
+            const randomMenuQuantities = document.getElementById('random_menu_quantities');
+
+            const updateTotalAmount = () => {
+                let total = 0;
+
+                const updateTotalForSelectedOptions = (selectedOptions, quantityInputsContainer) => {
+                    selectedOptions.forEach(option => {
+                        const price = parseFloat(option.getAttribute('data-price')) || 0;
+                        const quantityInput = quantityInputsContainer.querySelector(`input[data-item-id="${option.value}"]`);
+                        const quantity = parseInt(quantityInput.value) || 1;
+                        total += price * quantity;
+                    });
+                };
+
+                updateTotalForSelectedOptions(Array.from(menuSelect.selectedOptions), menuItemQuantities);
+                updateTotalForSelectedOptions(Array.from(randomMenuSelect.selectedOptions), randomMenuQuantities);
+
+                totalAmount.value = total.toFixed(2);
+            };
+
+            const createQuantityInput = (itemId, name) => {
+                const quantityInput = document.createElement('input');
+                quantityInput.type = 'number';
+                quantityInput.min = '1';
+                quantityInput.value = '1';
+                quantityInput.name = name;
+                quantityInput.setAttribute('data-item-id', itemId);
+                quantityInput.addEventListener('input', updateTotalAmount);
+                return quantityInput;
+            };
+
+            const handleSelectChange = (selectElement, quantitiesContainer, inputName) => {
+                const selectedOptions = Array.from(selectElement.selectedOptions);
+                quantitiesContainer.innerHTML = '';
+                selectedOptions.forEach(option => {
+                    const quantityInput = createQuantityInput(option.value, inputName);
+                    quantitiesContainer.appendChild(document.createTextNode(`${option.text}: `));
+                    quantitiesContainer.appendChild(quantityInput);
+                    quantitiesContainer.appendChild(document.createElement('br'));
+                });
+                updateTotalAmount();
+            };
+
+            menuSelect.addEventListener('change', () => handleSelectChange(menuSelect, menuItemQuantities, 'menu_item_quantity'));
+            randomMenuSelect.addEventListener('change', () => handleSelectChange(randomMenuSelect, randomMenuQuantities, 'random_menu_quantity'));
+
+            showRandomMenuCheckbox.addEventListener('change', function() {
+                if (showRandomMenuCheckbox.checked) {
+                    randomMenuDiv.style.display = 'block';
+                } else {
+                    randomMenuDiv.style.display = 'none';
+                    randomMenuSelect.selectedIndex = -1;
+                    randomMenuQuantities.innerHTML = '';
+                    updateTotalAmount();
+                }
+            });
+
+            document.querySelector('input[type="date"]').addEventListener('change', function () {
+                const date = this.value;
+                if (date) {
+                    window.location.href = `?date=${date}&name=${encodeURIComponent(document.querySelector('input[name="name"]').value)}&ps_no=${encodeURIComponent(document.querySelector('input[name="ps_no"]').value)}&dept_shop=${encodeURIComponent(document.querySelector('input[name="dept_shop"]').value)}&mobile_number=${encodeURIComponent(document.querySelector('input[name="mobile_number"]').value)}`;
+                }
+            });
+
+            const selectedDate = "{{ selected_date }}";
+            if (selectedDate) {
+                document.querySelector('input[type="date"]').value = selectedDate;
+            }
+
+            updateTotalAmount();
+        });
+    </script>
+</body>
+</html>
